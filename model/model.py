@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
-import torch.functional as F
+import torch.nn.functional as F
+
+from einops import einsum
 
 class MLP(nn.Module):
     def __init__(self, d_model=128, d_mlp=512):
@@ -33,3 +35,19 @@ class GrokModel(nn.Module):
         x = x + self.mlp(x)                          # residual after MLP
         logits = self.unembedding(x)                 # [batch, 3, prime]
         return logits
+    
+class SimpleModel(nn.Module):
+    def __init__(self, p=113, d_hidden=100):
+        super().__init__()
+        self.p = p
+        self.fc1 = nn.Linear(2 * p, d_hidden)
+        self.fc2 = nn.Linear(d_hidden, p)
+
+    def forward(self, a, b):
+        x_a = F.one_hot(a, num_classes=self.p).float()
+        x_b = F.one_hot(b, num_classes=self.p).float()
+        x = torch.cat([x_a, x_b], dim=-1)
+        h = F.relu(self.fc1(x))
+        return self.fc2(h)
+        
+        

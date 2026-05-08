@@ -7,7 +7,7 @@ def generate_dataset(prime: int = 113):
     dataset = []
     for a in range(prime):
         for b in range(prime):
-            result = (a * b) % prime
+            result = (a + b) % prime
             dataset.append((a, b, result))
 
     data_dir = os.path.dirname(os.path.abspath(__file__))
