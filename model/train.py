@@ -162,8 +162,7 @@ def train_model(prime: int = 113):
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1.0)
     loss_fn = nn.CrossEntropyLoss()
 
-    num_steps = 60_000
-    batch_size = 512
+    num_steps = 40_000
     log_every = 100
 
     # Only track norms of weight matrices (2D+ tensors), not biases/LN scales.
@@ -197,7 +196,7 @@ def train_model(prime: int = 113):
 
     for step in range(num_steps):
         model.train()
-        idx = torch.randint(0, len(train_inputs), (batch_size,), device=device)
+        idx = torch.arange(0, len(train_inputs), device=device)
         x, y = train_inputs[idx], train_targets[idx]
 
         optimizer.zero_grad()
