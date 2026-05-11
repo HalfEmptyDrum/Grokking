@@ -162,7 +162,7 @@ def train_model(prime: int = 113):
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1.0)
     loss_fn = nn.CrossEntropyLoss()
 
-    num_steps = 40_000
+    num_steps = 60_000
     batch_size = 512
     log_every = 100
 

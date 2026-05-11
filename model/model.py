@@ -17,7 +17,7 @@ class MLP(nn.Module):
 
 class GrokModel(nn.Module):
     def __init__(self, prime=113, d_vocab=114, d_model=128,
-                 num_heads=4, d_mlp=512, n_ctx=3):
+                 num_heads=16, d_mlp=512, n_ctx=3):
         super().__init__()
         self.embedding = nn.Embedding(d_vocab, d_model)
         self.pos_embedding = nn.Parameter(torch.randn(n_ctx, d_model) / d_model**0.5)
